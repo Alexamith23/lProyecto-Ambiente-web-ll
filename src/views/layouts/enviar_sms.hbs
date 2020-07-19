@@ -1,0 +1,23 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-12">
+            <center><h1>Twit</h1></center>
+            <br><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form action="/send-sms" method="POST">
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="numero" name="numero" placeholder="Ejm +5063241562">
+                </div>
+                <div class="form-group">
+                    <textarea rows="8" class="form-control" placeholder="Write your message" id="mensaje"
+                        name="mensaje"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success btn-lg btn-block">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
