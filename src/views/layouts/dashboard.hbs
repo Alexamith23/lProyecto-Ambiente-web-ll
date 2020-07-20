@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="modal fade" id="loguearse">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Create chanel
+                    </h4>
+                </div>
+                <form action="/crear_canal" method="POST">
+                    <div class="modal-body">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>SID del recurso</label>
+                                <input type="text" class="form-control" placeholder="ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+                                    name="sid" id="sid" required
+                                    data-validation-required-message="Ingrese su nombre de usuario.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary " data-toggle="modal">Crear</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="comentarioMed.png" alt="">
+            <h2>Hello admin, en esta sección puedes ver, editar, eliminar y crear los canales donde se forman
+                los chatrooms. Ver el SID y el nombre del servicio al que pertenecen
+            </h2>
+        </div>
+        <div class="col-md-5">
+            <br>
+            <br>
+            <br><br>
+            <br>
+            <br>
+            <center>
+                <h1>Channels</h1>
+            </center>
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Opciones</th>
+                        <th scope="col"> <a href="#loguearse" class="botonl" data-toggle="modal"><span
+                                    class="icon-add-to-list"></span></a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each canales}}
+                    <tr>
+                        <td>{{this}}</td>
+                        <td>Mark</td>
+                        <td><a href="" class="icons"><span class="icon-edit"> </span></a> / <a href=""
+                                class="icons"><span class="icon-trash"> </span></a> </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<ul class="people_list">
+</ul>

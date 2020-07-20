@@ -1,3 +1,20 @@
 h1{
     font-size: 75px;
 }
+
+.botonl
+{
+    
+	border-radius:2px;
+	background:#2D42C9;
+	color:#fff;
+	display:inline-block;
+	font-size:15px;
+	text-align:center;
+    width:40px;
+    
+	text-decoration:none;
+}
+.icons{
+    color: white;
+}
