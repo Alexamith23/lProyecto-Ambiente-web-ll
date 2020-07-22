@@ -18,6 +18,15 @@
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>Nombre del canal</label>
+                                <input type="text" class="form-control" placeholder="Friendly name" name="nombre"
+                                    id="nombre" required
+                                    data-validation-required-message="Ingrese su nombre de usuario.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -27,17 +36,54 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Edit chanel
+                    </h4>
+                </div>
+                <form action="/editar_canal" method="POST">
+                    <div class="modal-body">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>SID del chanel</label>
+                                <input type="text" class="form-control" placeholder="CH10785255b68645f1bcf11b75b09c001f"
+                                    name="sidE" id="sidE" required
+                                    data-validation-required-message="Ingrese su nombre de usuario." readonly>
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>Nuevo nombre del canal</label>
+                                <input type="text" class="form-control" placeholder="New friendly name" name="nombreE"
+                                    id="nombreE" required
+                                    data-validation-required-message="Ingrese su nombre de usuario.">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary " data-toggle="modal">Editar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12"></div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-5">
             <img src="comentarioMed.png" alt="">
             <h2>Hello admin, en esta sección puedes ver, editar, eliminar y crear los canales donde se forman
                 los chatrooms. Ver el SID y el nombre del servicio al que pertenecen
             </h2>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-7">
             <br>
             <br>
             <br><br>
@@ -58,17 +104,37 @@
                 </thead>
                 <tbody>
                     {{#each canales}}
-                    <tr>
-                        <td>{{this}}</td>
-                        <td>Mark</td>
-                        <td><a href="" class="icons"><span class="icon-edit"> </span></a> / <a href=""
-                                class="icons"><span class="icon-trash"> </span></a> </td>
+                    <tr id="{{this}}">
+                        <td>{{this.sid}}</td>
+                        <td>{{this.friendlyName}}</td>
+                        <td><a href="#" onclick="llenarInput('{{this.sid}}','{{this.friendlyName}}');" class="icons" data-toggle="modal"><span class="icon-edit">
+                                    </span></a>
+                            / <a onclick='return validar()' href="/x/{{this.sid}}" class="icons"><span class="icon-trash"> </span></a> 
+                            </td>
                     </tr>
                     {{/each}}
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        function llenarInput(sid,name) {
+            window.parent.document.getElementById('sidE').value = sid;
+            document.getElementById("nombreE").value=name;
+            $('#editar').modal();
+        }
+        function validar()
+        {
+            var respuesta = confirm("Seguro quiere eliminar el canal?");
+            if(respuesta)
+            {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
 </div>
 
 <ul class="people_list">

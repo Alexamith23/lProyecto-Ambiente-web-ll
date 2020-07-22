@@ -22,7 +22,7 @@ async function login(user, password) {
 
 async function obtenerServicios() {
     var x = client.chat.services.list({limit: 20});
-    let servi = (await x).length;
+    var servi = (await x).length;
     return servi;
 }
 
