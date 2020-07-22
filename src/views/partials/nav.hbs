@@ -1,6 +1,43 @@
+<div class="modal fade" id="loguin">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong>
+          <h4 class="modal-title">Loguin Twit</h4>
+        </strong>
+      </div>
+      <form action="/entrar" method="POST">
+        <div class="modal-body">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Usuario</label>
+              <input type="text" class="form-control" placeholder="User" name="user" id="user" required
+                data-validation-required-message="Por favor ingrese su nombre de usuario">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Password</label>
+              <input type="text" class="form-control" placeholder="Password" name="password" id="password" required
+                data-validation-required-message="Ingrese su password.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-success " data-toggle="modal">Entrar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="/"><img src="comentarioPeque.png" alt=""> Twit</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -10,13 +47,14 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Canales</a>
+        <a class="nav-link" href="/ir_a_canales">Canales</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/src/views/layouts/enviar_sms">Mensajes</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -27,9 +65,11 @@
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="validar()">Entrar</button>
   </div>
 </nav>
+<script>
+  function validar() {
+    $('#loguin').modal();
+  }
+</script>

@@ -12,9 +12,13 @@ h1{
 	font-size:15px;
 	text-align:center;
     width:40px;
-    
 	text-decoration:none;
 }
 .icons{
     color: white;
+}
+
+.chanel{
+	background-color:#40b024;
+	width:50px;
 }

@@ -14,10 +14,15 @@ const {editarCanal} = require('../twilio/canales');
 
 router.get('/',(req,res) => {
     res.render('index');
-})
+});
 
 router.get('/src/views/layouts/enviar_sms',(req,res) => {
     res.render('layouts/enviar_sms');
+});
+
+router.get('/ir_a_canales',async (req,res) => {
+    const response_chanels =  await canalesCreados();
+    res.render('layouts/canales_cliente',{canales:response_chanels});
 })
 
 router.post('/send-sms',async (req, res) => {
@@ -47,6 +52,7 @@ router.post('/entrar',async (req, res) => {
         const response_chanels =  await canalesCreados();
         res.render('layouts/dashboard',{canales:response_chanels});
     }else{
+        alert('Hola');
         res.render('index', {title: 'El usuario o la contraseña es incorrecto.'})
     }
 });
