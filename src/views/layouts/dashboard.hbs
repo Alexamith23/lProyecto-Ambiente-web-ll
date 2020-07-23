@@ -44,32 +44,29 @@
                         Edit chanel
                     </h4>
                 </div>
-                <form action="/editar_canal" method="POST">
-                    <div class="modal-body">
-                        <div class="control-group">
-                            <div class="form-group floating-label-form-group controls">
-                                <label>SID del chanel</label>
-                                <input type="text" class="form-control" placeholder="CH10785255b68645f1bcf11b75b09c001f"
-                                    name="sidE" id="sidE" required
-                                    data-validation-required-message="Ingrese su nombre de usuario." readonly>
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-                        <div class="control-group">
-                            <div class="form-group floating-label-form-group controls">
-                                <label>Nuevo nombre del canal</label>
-                                <input type="text" class="form-control" placeholder="New friendly name" name="nombreE"
-                                    id="nombreE" required
-                                    data-validation-required-message="Ingrese su nombre de usuario.">
-                                <p class="help-block text-danger"></p>
-                            </div>
+                <div class="modal-body">
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>SID del chanel</label>
+                            <input type="text" class="form-control" placeholder="CH10785255b68645f1bcf11b75b09c001f"
+                                name="sidE" id="sidE" required
+                                data-validation-required-message="Ingrese su nombre de usuario." readonly>
+                            <p class="help-block text-danger"></p>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary " data-toggle="modal">Editar</a>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <label>Nuevo nombre del canal</label>
+                            <input type="text" class="form-control" placeholder="New friendly name" name="nombreE"
+                                id="nombreE" required data-validation-required-message="Ingrese su nombre de usuario.">
+                            <p class="help-block text-danger"></p>
+                        </div>
                     </div>
-                </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" onclick="edicion();limpiar();" class="btn btn-primary " data-toggle="modal">Editar</a>
+                </div>
             </div>
         </div>
     </div>
@@ -90,7 +87,7 @@
             <br>
             <br>
             <center>
-                <h1>Channels <img src="comentarioPeque.png"</h1>
+                <h1>Channels <img src="comentarioPeque.png" </h1>
             </center>
             <table class="table table-striped table-dark">
                 <thead>
@@ -98,8 +95,11 @@
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Opciones</th>
-                        <th scope="col"> <a href="#loguearse" class="botonl" data-toggle="modal"><span
-                                    class="icon-add-to-list"></span></a></th>
+                        <th scope="col">
+                            <a href="#loguearse" class="botonl chanelDas" data-toggle="modal"><span
+                                    class="icon-add-to-list"></span></a>
+                            <a href="/cargar" class="botonl chanelDas"><span class="icon-circular-graph"></span></a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,10 +107,12 @@
                     <tr id="{{this}}">
                         <td>{{this.sid}}</td>
                         <td>{{this.friendlyName}}</td>
-                        <td><a href="#" onclick="llenarInput('{{this.sid}}','{{this.friendlyName}}');" class="icons" data-toggle="modal"><span class="icon-edit">
-                                    </span></a>
-                            / <a onclick='return validar()' href="/x/{{this.sid}}" class="icons"><span class="icon-trash"> </span></a> 
-                            </td>
+                        <td><a href="#" onclick="llenarInput('{{this.sid}}','{{this.friendlyName}}');" class="icons"
+                                data-toggle="modal"><span class="icon-edit">
+                                </span></a>
+                            / <a onclick="return validar('{{this.sid}}')" href="#" class="icons"><span
+                                    class="icon-trash"> </span></a>
+                        </td>
                     </tr>
                     {{/each}}
                 </tbody>
@@ -119,23 +121,42 @@
     </div>
 
     <script>
-        function llenarInput(sid,name) {
+        function llenarInput(sid, name) {
             window.parent.document.getElementById('sidE').value = sid;
-            document.getElementById("nombreE").value=name;
+            document.getElementById("nombreE").value = name;
             $('#editar').modal();
         }
-        function validar()
-        {
+        function validar(sid) {
             var respuesta = confirm("Seguro quiere eliminar el canal?");
-            if(respuesta)
-            {
+            if (respuesta) {
+                const completed = (e) => {
+                }
+                const error = () => console.log(this.responseText);
+                const ajaxRequest = new XMLHttpRequest();
+                ajaxRequest.addEventListener("load", completed);
+                ajaxRequest.addEventListener("error", error);
+                ajaxRequest.open("DELETE", "http://localhost:3000/x/" + sid);
+                ajaxRequest.send();
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
+        function edicion() {
+            var sid = window.parent.document.getElementById('sidE').value;
+            var nombre = document.getElementById("nombreE").value;
+            const completed = (e) => {}
+            const error = () => console.log(this.responseText);
+            const ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.addEventListener("load", completed);
+            ajaxRequest.addEventListener("error", error);
+            ajaxRequest.open("PATCH", "http://localhost:3000/editar_canal/" + sid+"/"+nombre);
+            ajaxRequest.send();
+            $('#editar').modal('hide');
+        }
+        function limpiar(){
+            document.getElementById('sidE').value ="";
+            document.getElementById("nombreE").value="";
+        }
     </script>
 </div>
-
-<ul class="people_list">
-</ul>

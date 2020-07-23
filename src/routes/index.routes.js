@@ -30,12 +30,11 @@ router.post('/send-sms',async (req, res) => {
     console.log(response.sid);
     res.render('layouts/enviar_sms');
 });
-router.post('/editar_canal',async (req, res) => {
-    console.log('New name '+req.body.nombreE)
-    const response = await editarCanal(req.body.sidE, req.body.nombreE);
- 
-    const response_chanels =  await canalesCreados();
-    res.render('layouts/dashboard',{canales:response_chanels});
+
+router.patch('/editar_canal/:sid/:nombre',async (req, res) => {
+    let sid = req.params.sid;
+    let nombre = req.params.nombre;
+    const response = await editarCanal(sid, nombre);
 });
 
 
@@ -57,10 +56,10 @@ router.post('/entrar',async (req, res) => {
     }
 });
 
-router.get('/x/:sid', (req, res) => {
+router.delete('/x/:sid', async(req, res) => {
     let sid = req.params.sid;
-    const borrado =  borrarCanal(sid);
-    res.render('');
+    borrarCanal(sid);
+	return "Se borró con éxito";
 });
 
 router.post('/crear_canal',async (req, res) => {
@@ -68,6 +67,30 @@ router.post('/crear_canal',async (req, res) => {
     const response_chanels =  await canalesCreados();
     res.render('layouts/dashboard',{canales:response_chanels});
 });
+
+router.get('/cargar',async (req, res) => {
+	console.log('Hola');
+    const response_chanels =  await canalesCreados();
+    res.render('layouts/dashboard',{canales:response_chanels});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //IS3ed18df849e34ebea8471e84f1b65fa4
 
