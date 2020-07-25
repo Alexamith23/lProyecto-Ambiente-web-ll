@@ -5,14 +5,14 @@
                 <div class="modal-header">
                     <strong><h4 class="modal-title" id="title"></h4></strong>
                 </div>
-                <form action="/crear_canal" method="POST">
+                <form action="/joinChat" method="POST">
                     <div class="modal-body">
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls">
                                 <input type="hidden">
                                 <label>SID del canal</label>
                                 <input type="text" class="form-control" 
-                                    name="sid" id="sid" required
+                                    name="chanel" id="chanel" required
                                     data-validation-required-message="" readonly>
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -20,8 +20,8 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls">
                                 <label>Nickname</label>
-                                <input type="text" class="form-control" placeholder="AKA: Jonh Doe" name="token"
-                                    id="token" required
+                                <input type="text" class="form-control" placeholder="AKA" name="aka"
+                                    id="aka" required
                                     data-validation-required-message="Ingrese su token.">
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -78,7 +78,7 @@
             <script>
                 function llenarInput(sid, name) {
                     window.parent.document.getElementById('title').innerText = 'Grupo \"'+name+'\"';
-                    document.getElementById("sid").value = sid;
+                    document.getElementById("chanel").value = sid;
                     $('#addMember').modal();
                 }
                 function validar(nombre) {

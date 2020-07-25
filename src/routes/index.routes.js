@@ -9,8 +9,9 @@ const {createChanel} = require('../twilio/canales');
 const {canalesCreados} = require('../twilio/canales');
 const {borrarCanal} = require('../twilio/canales');
 const {editarCanal} = require('../twilio/canales');
-
-
+const {unirse} = require('../twilio/chatroom');
+const {miembros} = require('../twilio/chatroom');
+const {lista_de_mensajes} = require('../twilio/chatroom');
 
 router.get('/',(req,res) => {
     res.render('index');
@@ -69,11 +70,17 @@ router.post('/crear_canal',async (req, res) => {
 });
 
 router.get('/cargar',async (req, res) => {
-	console.log('Hola');
     const response_chanels =  await canalesCreados();
     res.render('layouts/dashboard',{canales:response_chanels});
 });
 
+
+router.post('/joinChat',async (req, res) => {
+    await unirse(req.body.chanel, req.body.aka);
+    var respuesta = await miembros(req.body.chanel);
+    var mensajes = await lista_de_mensajes(req.body.chanel);
+    res.send('Chatroom con una población de miembros de '+respuesta.length+" Cantidad de mensajes "+mensajes.length);
+});
 
 
 

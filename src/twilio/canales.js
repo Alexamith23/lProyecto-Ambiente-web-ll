@@ -20,19 +20,12 @@ function createChanel(servicio,nombre) {
 }
 
 
-
-
-
-
-
-
 async function canalesCreados() {
   let array = [];
   const chanels = client.chat
     .services("IS3ed18df849e34ebea8471e84f1b65fa4")
     .channels.list({ limit: 20 });
   (await chanels).forEach((element) => array.push(element));
-  console.log(array.length);
   return array;
 }
 
@@ -46,7 +39,6 @@ function borrarCanal(chanel) {
 
 
 async function editarCanal(chanel, nombre_nuevo) {
-    console.log(chanel+"--- "+nombre_nuevo);
   try {
     console.log('Hola');
     const response = client.chat.v1
