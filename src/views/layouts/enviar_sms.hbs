@@ -1,23 +1,66 @@
 <div class="container p-4">
     <div class="row">
         <div class="col-md-12">
-            <center><h1>Twit</h1></center>
-            <br><br>
+            <center>
+                <h2>Hola <strong>{{user}}</strong>. Bienvenido al canal</h2>
+                <h4>{{canal}}</h4>
+            </center><br>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3"></div>
+        <div class="col-md-3">
+
+        </div>
         <div class="col-md-6">
-            <form action="/send-sms" method="POST">
-                <div class="form-group">
-                    <input type="tel" class="form-control" id="numero" name="numero" placeholder="Ejm +5063241562">
+            <div id="global">
+                <div id="mensajes">
+                    {{#each lista_mensajes}}
+                    <div id="output" class="texto">
+                        <strong><label id="from">{{this.from}}:</label></strong>
+                        {{this.body}}
+                    </div>
+                    {{/each}}
                 </div>
-                <div class="form-group">
-                    <textarea rows="8" class="form-control" placeholder="Write your message" id="mensaje"
-                        name="mensaje"></textarea>
-                </div>
-                <button type="submit" class="btn btn-success btn-lg btn-block">Enviar</button>
-            </form>
+            </div>
+            <div class="form-group mx-sm-10 mb-5">
+                <input type="text" class="form-control" id="sms" name="sms" placeholder="Escribe algo">
+                <button id="btn" class="btn btn-success" onclick="x('{{user}}','{{canal}}');">Send</button>
+            </div>
         </div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        //DOM elements
+        let output = document.getElementById('mensajes');
+        function x(usuario_added, canal) {
+            var t = 0;
+            let sms = document.getElementById('sms').value;
+            const completed = (e) => {
+                document.getElementById('sms').value = "";
+            }
+            const error = () => console.log(this.responseText);
+            const ajaxRequest = new XMLHttpRequest();
+            ajaxRequest.addEventListener("load", completed);
+            ajaxRequest.addEventListener("error", error);
+            ajaxRequest.open("POST", "http://localhost:3000/send-sms/" + canal + "/" + sms + "/" + usuario_added);
+            ajaxRequest.send();
+
+            socket.emit('chat', {
+                men: sms,
+                usu: usuario_added
+            });
+        }
+            socket.on('chat', function (data) {
+                console.log(data);
+                output.innerHTML += `
+                <div id="output" class="texto">
+                    <strong>
+                        <label id="from">${data.usu}:</label>
+                    </strong>
+                    ${data.men}
+                </div>`
+                return;
+            })
+    </script>
 </div>

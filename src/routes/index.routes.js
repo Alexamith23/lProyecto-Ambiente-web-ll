@@ -12,6 +12,7 @@ const { editarCanal } = require("../twilio/canales");
 const { unirse } = require("../twilio/chatroom");
 const { miembros } = require("../twilio/chatroom");
 const { lista_de_mensajes } = require("../twilio/chatroom");
+const { enviarSMS } = require("../twilio/chatroom");
 
 router.get("/", (req, res) => {
   res.render("index");
@@ -26,10 +27,12 @@ router.get("/ir_a_canales", async (req, res) => {
   res.render("layouts/canales_cliente", { canales: response_chanels });
 });
 
-router.post("/send-sms", async (req, res) => {
-  const response = await sendMessage(req.body.sid, req.body.nombre);
-  console.log(response.sid);
-  res.render("layouts/enviar_sms");
+router.post("/send-sms/:canal/:sms/:usuario_added", async (req, res) => {
+  console.log("Ole");
+await enviarSMS(req.params.canal, req.params.sms, req.params.usuario_added);
+  var mensajes = await lista_de_mensajes(req.params.canal);
+  res.render("layouts/enviar_sms",{lista_mensajes:mensajes
+,canal:req.params.chanel, user:req.params.user});
 });
 
 router.patch("/editar_canal/:sid/:nombre", async (req, res) => {
@@ -72,6 +75,14 @@ router.get("/cargar", async (req, res) => {
   res.render("layouts/dashboard", { canales: response_chanels });
 });
 
+
+
+
+router.post("/sms", async (req, res) => {
+  console.log(req.body);
+  res.send('Recivido');
+});
+
 router.post("/joinChat", async (req, res) => {
   var respuesta = await miembros(req.body.chanel);
   var existe = false;
@@ -82,21 +93,18 @@ router.post("/joinChat", async (req, res) => {
         existe = true;
     }
   });
-  if (existe) {
+ /**if (existe) {
     const response_chanels = await canalesCreados();
     res.render(
       "layouts/canales_cliente",
       { canales: response_chanels,respuesta: "El A.K.A ingresado no está disponible" });
   } else {
-    await unirse(req.body.chanel, req.body.aka);
+    await unirse(req.body.chanel, req.body.aka);*/
+    console.log(req.body.aka);
     var mensajes = await lista_de_mensajes(req.body.chanel);
-    res.send(
-      "Chatroom con una población de miembros de " +
-        respuesta.length +
-        " Cantidad de mensajes " +
-        mensajes.length
-    );
-  }
+    res.render("layouts/enviar_sms",{lista_mensajes:mensajes,canal:req.body.chanel,user:req.body.aka});
+      
+  //}
 });
 
 
