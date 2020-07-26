@@ -29,6 +29,7 @@ h1{
 #global {
 	height: 250px;
 	border: 1px solid #ddd;
+	border-radius: 10px;
 	background: #f1f1f1;
 	overflow-y: scroll;
 }
@@ -36,6 +37,7 @@ h1{
 	height: auto;
 }
 .texto {
+	border: solid 0.5% black;
 	padding:4px;
-	background:#fff;
+	background:#fef8ea;
 }

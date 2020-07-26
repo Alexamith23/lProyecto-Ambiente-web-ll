@@ -4,12 +4,16 @@ const client = require("twilio")(config.SID, config.TOKEN);
 
 async function unirse(chanel, aka) {
   try {
+    array = [];
     const response = client.chat
       .services("IS3ed18df849e34ebea8471e84f1b65fa4")
       .channels(chanel)
-      .members.create({ identity: aka })
-      .then((member) => console.log(member.sid));
-    return response;
+      .members.create({ identity: aka });
+      //.then((member) => console.log(member.sid));
+      console.log("sid "+(await response).sid);
+      array.push((await response).sid);
+      array.push((await response).identity);
+    return array;
   } catch (error) {
     console.log(error);
   }

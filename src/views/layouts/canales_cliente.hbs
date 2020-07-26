@@ -3,7 +3,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <strong><h4 class="modal-title" id="title"></h4></strong>
+                    <strong>
+                        <h4 class="modal-title" id="title"></h4>
+                    </strong>
                 </div>
                 <form action="/joinChat" method="POST">
                     <div class="modal-body">
@@ -11,8 +13,7 @@
                             <div class="form-group floating-label-form-group controls">
                                 <input type="hidden">
                                 <label>SID del canal</label>
-                                <input type="text" class="form-control" 
-                                    name="chanel" id="chanel" required
+                                <input type="text" class="form-control" name="chanel" id="chanel" required
                                     data-validation-required-message="" readonly>
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -20,8 +21,7 @@
                         <div class="control-group">
                             <div class="form-group floating-label-form-group controls">
                                 <label>Nickname</label>
-                                <input type="text" class="form-control" placeholder="AKA" name="aka"
-                                    id="aka" required
+                                <input type="text" class="form-control" placeholder="AKA" name="aka" id="aka" required
                                     data-validation-required-message="Ingrese su token.">
                                 <p class="help-block text-danger"></p>
                             </div>
@@ -31,6 +31,35 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary " data-toggle="modal">Unirme</a>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="aut">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong>
+                        <h4 class="modal-title" id="title"></h4>
+                    </strong>
+                </div>
+                <form action="/autenticate" method="POST">
+                    <div class="modal-body">
+                        <div class="control-group">
+                            <div class="form-group floating-label-form-group controls">
+                                <label>SID de autenticación</label>
+                                <input type="text" class="form-control" placeholder="SID" name="sid" id="sid" required
+                                    data-validation-required-message="Ingrese su sid">
+                                <p class="help-block text-danger"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary " data-toggle="modal">Autenticarme</a>
+                    </div>
+                    <input type="hidden" name="aka" id="aka" value="{{aka}}">
+                    <input type="hidden" name="chanel" id="chanel" value="{{canal}}">
                 </form>
             </div>
         </div>
@@ -75,20 +104,18 @@
                     {{/each}}
                 </tbody>
             </table>
-            <h2>{{respuesta}}</h2>
+            <input type="hidden" value="{{respuesta}}" id="x">
+            <h3>{{negativo}}</h3>
             <script>
+                var respuesta = document.getElementById("x");
+                if(respuesta.value == 'true'){
+                    $('#aut').modal();
+                    document.getElementById("x").value = 'false';
+                }
                 function llenarInput(sid, name) {
-                    window.parent.document.getElementById('title').innerText = 'Grupo \"'+name+'\"';
+                    window.parent.document.getElementById('title').innerText = 'Grupo \"' + name + '\"';
                     document.getElementById("chanel").value = sid;
                     $('#addMember').modal();
-                }
-                function validar(nombre) {
-                    var respuesta = confirm("Seguro deseas añadirte al chanel " + nombre + ' ?');
-                    if (respuesta) {
-                        return true;
-                    } else {
-                        return false;
-                    }
                 }
             </script>
         </div>

@@ -28,11 +28,43 @@ router.get("/ir_a_canales", async (req, res) => {
 });
 
 router.post("/send-sms/:canal/:sms/:usuario_added", async (req, res) => {
-  console.log("Ole");
-await enviarSMS(req.params.canal, req.params.sms, req.params.usuario_added);
+  await enviarSMS(req.params.canal, req.params.sms, req.params.usuario_added);
   var mensajes = await lista_de_mensajes(req.params.canal);
-  res.render("layouts/enviar_sms",{lista_mensajes:mensajes
-,canal:req.params.chanel, user:req.params.user});
+  res.render("layouts/enviar_sms", {
+    lista_mensajes: mensajes,
+    canal: req.params.chanel,
+    user: req.params.user,
+  });
+});
+
+router.post("/autenticate", async (req, res) => {
+  var respuesta = await miembros(req.body.chanel);
+  var existe = false;
+  respuesta.forEach((element) => {
+    var nombreNuevo = req.body.aka;
+    var nombreRegistrado = element.identity;
+    console.log(element.identity+" SID guardado "+element.sid+" SID enviado "+req.body.sid);
+    if (nombreRegistrado == nombreNuevo && element.sid == req.body.sid) {
+      existe = true;
+    }
+  });
+  if (existe) {
+    var mensajes = await lista_de_mensajes(req.body.chanel);
+    res.render("layouts/enviar_sms", {
+      lista_mensajes: mensajes,
+      canal: req.body.chanel,
+      user: req.body.aka,
+      sid: req.body.sid,
+    });
+  } else {
+    const response_chanels = await canalesCreados();
+    res.render("layouts/canales_cliente", {
+      canales: response_chanels,
+      negativo: "Su sid para el usuario "+req.body.aka+" no coincide",
+      canal: req.body.chanel,
+      aka: req.body.aka,
+    });
+  }
 });
 
 router.patch("/editar_canal/:sid/:nombre", async (req, res) => {
@@ -75,12 +107,9 @@ router.get("/cargar", async (req, res) => {
   res.render("layouts/dashboard", { canales: response_chanels });
 });
 
-
-
-
 router.post("/sms", async (req, res) => {
   console.log(req.body);
-  res.send('Recivido');
+  res.send("Recivido");
 });
 
 router.post("/joinChat", async (req, res) => {
@@ -90,23 +119,29 @@ router.post("/joinChat", async (req, res) => {
     var nombreNuevo = req.body.aka;
     var nombreRegistrado = element.identity;
     if (nombreRegistrado == nombreNuevo) {
-        existe = true;
+      existe = true;
     }
   });
- /**if (existe) {
+  if (existe) {
     const response_chanels = await canalesCreados();
-    res.render(
-      "layouts/canales_cliente",
-      { canales: response_chanels,respuesta: "El A.K.A ingresado no está disponible" });
+    res.render("layouts/canales_cliente", {
+      canales: response_chanels,
+      respuesta: 'true',
+      canal: req.body.chanel,
+      aka: req.body.aka,
+    });
   } else {
-    await unirse(req.body.chanel, req.body.aka);*/
+    const response = await unirse(req.body.chanel, req.body.aka);
     console.log(req.body.aka);
     var mensajes = await lista_de_mensajes(req.body.chanel);
-    res.render("layouts/enviar_sms",{lista_mensajes:mensajes,canal:req.body.chanel,user:req.body.aka});
-      
-  //}
+    res.render("layouts/enviar_sms", {
+      lista_mensajes: mensajes,
+      canal: req.body.chanel,
+      user: req.body.aka,
+      sid: response[0],
+    });
+  }
 });
-
 
 module.exports = router;
 //IS3ed18df849e34ebea8471e84f1b65fa4

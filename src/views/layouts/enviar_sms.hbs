@@ -1,17 +1,41 @@
 <div class="container p-4">
-    <div class="row">
-        <div class="col-md-12">
-            <center>
-                <h2>Hola <strong>{{user}}</strong>. Bienvenido al canal</h2>
-                <h4>{{canal}}</h4>
-            </center><br>
+    <div class="modal fade" id="mostrarSID">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong>
+                        <h4 class="modal-title" id="title">SID de autenticación</h4>
+                    </strong>
+                </div>
+                <div class="modal-body">
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <p><strong>{{user}} </strong>el SID <strong>"{{sid}}"</strong> es para autenticarte con el mismo aka
+                            cada vez que quieras entrar al chatroom con el mismo aka. Cópialo y guardalo para mantener tu nombre.</p>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Entendido</a>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
 
         </div>
+        <br>
+    </div>
+    <div class="row">
         <div class="col-md-6">
+            <br><br>
+            <center>
+                <h2>Hola <strong>{{user}}</strong>. Bienvenido al canal</h2>
+                <h4>{{canal}}</h4>
+                <h4></h4>
+            </center><br>
             <div id="global">
                 <div id="mensajes">
                     {{#each lista_mensajes}}
@@ -22,9 +46,19 @@
                     {{/each}}
                 </div>
             </div>
-            <div class="form-group mx-sm-10 mb-5">
-                <input type="text" class="form-control" id="sms" name="sms" placeholder="Escribe algo">
-                <button id="btn" class="btn btn-success" onclick="x('{{user}}','{{canal}}');">Send</button>
+            <div class="input-group mb-3">
+                <input type="text" id="sms" class="form-control" aria-label="Amount (to the nearest dollar)"
+                    placeholder="Escribe algo">
+                <div class="input-group-append">
+                    <a onclick="x('{{user}}','{{canal}}');" href="#" id="btn" class="botonl chanelDas"><span
+                            class="icon-paper-plane"></span></a>
+                </div>
+            </div>
+            <a onclick="llamarInfo()" href="#" id="valor" class="">SID de autenticación</a>
+        </div>
+        <div class="col-md-5">
+            <div class="col-md-3">
+                <img src="comentario.png" alt=""><br>
             </div>
         </div>
     </div>
@@ -51,16 +85,34 @@
                 usu: usuario_added
             });
         }
-            socket.on('chat', function (data) {
-                console.log(data);
-                output.innerHTML += `
+        socket.on('chat', function (data) {
+            console.log(data);
+            output.innerHTML += `
                 <div id="output" class="texto">
                     <strong>
                         <label id="from">${data.usu}:</label>
                     </strong>
                     ${data.men}
                 </div>`
-                return;
-            })
+            return;
+        })
+    </script>
+    <script>
+        $('#mostrarSID').modal();
+        var elemento = document.getElementById('mostrarSid');
+        var valor = document.getElementById('valor');
+        var oculto = false;
+        function controller() {
+            if (!oculto) {
+                elemento.style.display = 'block';
+                oculto = true;
+            } else {
+                elemento.style.display = 'none';
+                oculto = false;
+            }
+        }
+        function llamarInfo(){
+            $('#mostrarSID').modal();
+        }
     </script>
 </div>

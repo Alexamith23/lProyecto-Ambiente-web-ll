@@ -2,15 +2,6 @@ const config = require("../config");
 const { response } = require("express");
 const client = require("twilio")(config.SID, config.TOKEN);
 
-/**function createChanel(servicio, nombre) {
-  const chanel = client.chat.v1
-    .services(servicio, nombre)
-    .channels.create({ friendlyName: nombre })
-    .then((channel) => console.log("Canal creado " + channel.sid));
-
-  return chanel;
-}*/
-
 function createChanel(servicio,nombre) {
     const chanel = client.chat.services(servicio)
     .channels
