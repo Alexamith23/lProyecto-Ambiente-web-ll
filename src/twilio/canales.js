@@ -42,5 +42,13 @@ async function editarCanal(chanel, nombre_nuevo) {
     console.log(error);
   }
 }
+async function traerCanal(chanel) {
+  try {
+    const response = client.chat.services('IS3ed18df849e34ebea8471e84f1b65fa4').channels(chanel).fetch();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-module.exports = { createChanel, canalesCreados, borrarCanal, editarCanal };
+module.exports = { createChanel, canalesCreados, borrarCanal, editarCanal, traerCanal};

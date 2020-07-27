@@ -8,7 +8,7 @@ const { listarServiciosCreados } = require("../twilio/crear_servicio");
 const { createChanel } = require("../twilio/canales");
 const { canalesCreados } = require("../twilio/canales");
 const { borrarCanal } = require("../twilio/canales");
-const { editarCanal } = require("../twilio/canales");
+const { editarCanal,traerCanal } = require("../twilio/canales");
 const { unirse } = require("../twilio/chatroom");
 const { miembros } = require("../twilio/chatroom");
 const { lista_de_mensajes } = require("../twilio/chatroom");
@@ -50,11 +50,15 @@ router.post("/autenticate", async (req, res) => {
   });
   if (existe) {
     var mensajes = await lista_de_mensajes(req.body.chanel);
+    var nombreCanal = traerCanal(req.body.chanel);
+    var friendlyName =(await nombreCanal).friendlyName;
     res.render("layouts/enviar_sms", {
       lista_mensajes: mensajes,
       canal: req.body.chanel,
       user: req.body.aka,
       sid: req.body.sid,
+      frName: friendlyName,
+      miembros:respuesta
     });
   } else {
     const response_chanels = await canalesCreados();
@@ -91,9 +95,9 @@ router.post("/entrar", async (req, res) => {
 });
 
 router.delete("/x/:sid", async (req, res) => {
+  console.log("entra");
   let sid = req.params.sid;
   borrarCanal(sid);
-  return "Se borró con éxito";
 });
 
 router.post("/crear_canal", async (req, res) => {
@@ -134,11 +138,15 @@ router.post("/joinChat", async (req, res) => {
     const response = await unirse(req.body.chanel, req.body.aka);
     console.log(req.body.aka);
     var mensajes = await lista_de_mensajes(req.body.chanel);
+    var nombreCanal = traerCanal(req.body.chanel);
+    var friendlyName =(await nombreCanal).friendlyName;
     res.render("layouts/enviar_sms", {
       lista_mensajes: mensajes,
       canal: req.body.chanel,
       user: req.body.aka,
       sid: response[0],
+      frName: friendlyName,
+      miembros:respuesta
     });
   }
 });

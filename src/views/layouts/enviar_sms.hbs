@@ -1,3 +1,4 @@
+{{>nav}}
 <div class="container p-4">
     <div class="modal fade" id="mostrarSID">
         <div class="modal-dialog">
@@ -10,14 +11,52 @@
                 <div class="modal-body">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls">
-                            <p><strong>{{user}} </strong>el SID <strong>"{{sid}}"</strong> es para autenticarte con el mismo aka
-                            cada vez que quieras entrar al chatroom con el mismo aka. Cópialo y guardalo para mantener tu nombre.</p>
+                            <p><strong>{{user}} </strong>el SID <strong>"{{sid}}"</strong> es para autenticarte con el
+                                mismo aka
+                                cada vez que quieras entrar al chatroom con el mismo aka. Cópialo y guardalo para
+                                mantener tu nombre.</p>
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" data-dismiss="modal">Entendido</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true" id="personas">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong>
+                        <h4 class="modal-title" id="title">Miembros de <strong>"{{frName}}"</strong></h4>
+                    </strong>
+                </div>
+                <div class="modal-body">
+                    <div id="global">
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">A.K.A</th>
+                                    <th scope="col">Desde</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each miembros}}
+                                <tr>
+                                    <td>{{this.identity}}</td>
+                                    <td>2016-03-24T21:05:50Z</td>
+
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">Ok</a>
                 </div>
             </div>
         </div>
@@ -33,7 +72,7 @@
             <br><br>
             <center>
                 <h2>Hola <strong>{{user}}</strong>. Bienvenido al canal</h2>
-                <h4>{{canal}}</h4>
+                <h4><strong>"{{frName}}"</strong></h4>
                 <h4></h4>
             </center><br>
             <div id="global">
@@ -54,7 +93,8 @@
                             class="icon-paper-plane"></span></a>
                 </div>
             </div>
-            <a onclick="llamarInfo()" href="#" id="valor" class="">SID de autenticación</a>
+            <a onclick="llamarInfo()" href="#" id="valor" class="">SID de autenticación</a><br>
+            <a onclick="verPersonas()" href="#" id="valor" class="">Integrantes</a>
         </div>
         <div class="col-md-5">
             <div class="col-md-3">
@@ -111,8 +151,11 @@
                 oculto = false;
             }
         }
-        function llamarInfo(){
+        function llamarInfo() {
             $('#mostrarSID').modal();
+        }
+        function verPersonas() {
+            $('#personas').modal();
         }
     </script>
 </div>

@@ -1,3 +1,6 @@
+
+{{>navAdmin}}
+
 <div class="container">
     <div class="modal fade" id="loguearse">
         <div class="modal-dialog">
@@ -65,7 +68,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" onclick="edicion();limpiar();" class="btn btn-primary " data-toggle="modal">Editar</a>
+                    <button type="button" onclick="edicion();limpiar();" class="btn btn-primary "
+                        data-toggle="modal">Editar</a>
                 </div>
             </div>
         </div>
@@ -110,7 +114,7 @@
                         <td><a href="#" onclick="llenarInput('{{this.sid}}','{{this.friendlyName}}');" class="icons"
                                 data-toggle="modal"><span class="icon-edit">
                                 </span></a>
-                            / <a onclick="return validar('{{this.sid}}')" href="#" class="icons"><span
+                            / <a onclick="validar('{{this.sid}}')" href="#" class="icons"><span
                                     class="icon-trash"> </span></a>
                         </td>
                     </tr>
@@ -130,6 +134,7 @@
             var respuesta = confirm("Seguro quiere eliminar el canal?");
             if (respuesta) {
                 const completed = (e) => {
+                    alert("Hola");
                 }
                 const error = () => console.log(this.responseText);
                 const ajaxRequest = new XMLHttpRequest();
@@ -145,18 +150,18 @@
         function edicion() {
             var sid = window.parent.document.getElementById('sidE').value;
             var nombre = document.getElementById("nombreE").value;
-            const completed = (e) => {}
+            const completed = (e) => { }
             const error = () => console.log(this.responseText);
             const ajaxRequest = new XMLHttpRequest();
             ajaxRequest.addEventListener("load", completed);
             ajaxRequest.addEventListener("error", error);
-            ajaxRequest.open("PATCH", "http://localhost:3000/editar_canal/" + sid+"/"+nombre);
+            ajaxRequest.open("PATCH", "http://localhost:3000/editar_canal/" + sid + "/" + nombre);
             ajaxRequest.send();
             $('#editar').modal('hide');
         }
-        function limpiar(){
-            document.getElementById('sidE').value ="";
-            document.getElementById("nombreE").value="";
+        function limpiar() {
+            document.getElementById('sidE').value = "";
+            document.getElementById("nombreE").value = "";
         }
     </script>
 </div>
