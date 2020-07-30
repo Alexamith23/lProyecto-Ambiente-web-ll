@@ -9,10 +9,8 @@ const { createChanel } = require("../twilio/canales");
 const { canalesCreados } = require("../twilio/canales");
 const { borrarCanal } = require("../twilio/canales");
 const { editarCanal,traerCanal } = require("../twilio/canales");
-const { unirse } = require("../twilio/chatroom");
-const { miembros } = require("../twilio/chatroom");
-const { lista_de_mensajes } = require("../twilio/chatroom");
-const { enviarSMS } = require("../twilio/chatroom");
+const { unirse,miembrosll,miembros,lista_de_mensajes,enviarSMS } = require("../twilio/chatroom");
+
 
 router.get("/", (req, res) => {
   res.render("index");
@@ -74,12 +72,15 @@ router.post("/autenticate", async (req, res) => {
 router.patch("/editar_canal/:sid/:nombre", async (req, res) => {
   let sid = req.params.sid;
   let nombre = req.params.nombre;
+  console.log(sid);
   const response = await editarCanal(sid, nombre);
+  const response_chanels = await canalesCreados();
+    res.render("layouts/dashboard", { canales: response_chanels });
 });
 
 router.post("/entrar", async (req, res) => {
+  console.log(req.body.user);
   const response = await login(req.body.user, req.body.password);
-  console.log(response);
   if (response) {
     const response_service = await obtenerServicios();
     if (response_service == 0) {
@@ -89,8 +90,8 @@ router.post("/entrar", async (req, res) => {
     const response_chanels = await canalesCreados();
     res.render("layouts/dashboard", { canales: response_chanels });
   } else {
-    alert("Hola");
-    res.render("index", { title: "El usuario o la contraseña es incorrecto." });
+   
+    res.render("index", { title: "El usuario o la contraseña es incorrectooo." });
   }
 });
 
@@ -98,6 +99,7 @@ router.delete("/x/:sid", async (req, res) => {
   console.log("entra");
   let sid = req.params.sid;
   borrarCanal(sid);
+  res.status(204).json({message: "All is ok"});
 });
 
 router.post("/crear_canal", async (req, res) => {
@@ -111,9 +113,16 @@ router.get("/cargar", async (req, res) => {
   res.render("layouts/dashboard", { canales: response_chanels });
 });
 
+router.get("/miembros/:cha", async (req, res) => {
+  const response_members = await miembrosll(req.params.cha);
+  console.log(response_members);
+  res.json(response_members);
+});
+
+
 router.post("/sms", async (req, res) => {
   console.log(req.body);
-  res.send("Recivido");
+  res.send("Recibido");
 });
 
 router.post("/joinChat", async (req, res) => {

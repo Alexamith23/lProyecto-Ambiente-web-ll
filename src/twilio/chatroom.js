@@ -6,7 +6,7 @@ async function unirse(chanel, aka) {
   try {
     array = [];
     const response = client.chat
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
       .members.create({ identity: aka });
       //.then((member) => console.log(member.sid));
@@ -23,11 +23,22 @@ async function miembros(chanel) {
   let array = [];
   try {
     const response = client.chat
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
-      .members.list({ limit: 20 });
+      .members.list();
     (await response).forEach((element) => array.push(element));
     return array;
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function miembrosll(chanel) {
+  try {
+    const response = client.chat
+      .services(config.Service)
+      .channels(chanel)
+      .members.list();
+    return response;
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +48,7 @@ async function lista_de_mensajes(chanel) {
   let array = [];
   try {
     const response = client.chat
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
       .messages.list();
     (await response).forEach((element) => array.push(element));
@@ -52,7 +63,7 @@ async function enviarSMS(chanel, sms, autor) {
   console.log('La fecha actual es',now);
   try {
     client.chat
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
       .messages.create({ body: sms, from:autor, dateCreated:now })
       .then((message) => console.log(message.sid));
@@ -68,7 +79,7 @@ async function recibir(chanel, sms, autor) {
   console.log('La fecha actual es',now);
   try {
     client.chat
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
       .messages.create({ body: sms, from:autor, dateCreated:now })
       .then((message) => console.log(message.sid));
@@ -76,4 +87,4 @@ async function recibir(chanel, sms, autor) {
     console.log(error);
   }
 }
-module.exports = { unirse, miembros, lista_de_mensajes, enviarSMS };
+module.exports = { unirse, miembros, lista_de_mensajes, enviarSMS,miembrosll };

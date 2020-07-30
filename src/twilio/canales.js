@@ -14,7 +14,7 @@ function createChanel(servicio,nombre) {
 async function canalesCreados() {
   let array = [];
   const chanels = client.chat
-    .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+    .services(config.Service)
     .channels.list({ limit: 20 });
   (await chanels).forEach((element) => array.push(element));
   return array;
@@ -22,7 +22,7 @@ async function canalesCreados() {
 
 function borrarCanal(chanel) {
   const response = client.chat.v1
-    .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+    .services(config.Service)
     .channels(chanel)
     .remove();
   return response.sid;
@@ -31,9 +31,8 @@ function borrarCanal(chanel) {
 
 async function editarCanal(chanel, nombre_nuevo) {
   try {
-    console.log('Hola');
     const response = client.chat.v1
-      .services("IS3ed18df849e34ebea8471e84f1b65fa4")
+      .services(config.Service)
       .channels(chanel)
       .update({ friendlyName: nombre_nuevo })
       .then((channel) => console.log('New name '+channel.friendlyName));
@@ -44,7 +43,7 @@ async function editarCanal(chanel, nombre_nuevo) {
 }
 async function traerCanal(chanel) {
   try {
-    const response = client.chat.services('IS3ed18df849e34ebea8471e84f1b65fa4').channels(chanel).fetch();
+    const response = client.chat.services(config.Service).channels(chanel).fetch();
     return response;
   } catch (error) {
     console.log(error);

@@ -17,7 +17,7 @@
                                 <label>SID del recurso</label>
                                 <input type="text" class="form-control" placeholder="ISXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
                                     name="sid" id="sid" required
-                                    data-validation-required-message="Ingrese su nombre de usuario.">
+                                    data-validation-required-message="Ingrese su nombre de usuario." value="IS3ed18df849e34ebea8471e84f1b65fa4" readonly>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
@@ -134,7 +134,6 @@
             var respuesta = confirm("Seguro quiere eliminar el canal?");
             if (respuesta) {
                 const completed = (e) => {
-                    alert("Hola");
                 }
                 const error = () => console.log(this.responseText);
                 const ajaxRequest = new XMLHttpRequest();
